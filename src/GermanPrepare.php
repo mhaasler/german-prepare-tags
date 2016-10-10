@@ -55,7 +55,7 @@ class GermanPrepare implements GermanPrepareInterface
     /**
      * @var string $stopWords
      */
-    protected $stopWords;
+    protected $stopWords = null;
     /**
      * @var GermanPrepareModel[]
      */
@@ -69,7 +69,9 @@ class GermanPrepare implements GermanPrepareInterface
      */
     public function __construct($text="", $stopWords=null)
     {
-        $this->setStopWords($stopWords);
+        if($stopWords) {
+            $this->setStopWords($stopWords);
+        }
         $this->setText($text);
 
         return $this;
