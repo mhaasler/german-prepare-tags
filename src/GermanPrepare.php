@@ -120,12 +120,12 @@ class GermanPrepare implements GermanPrepareInterface
     }
 
     /**
-     * @param string $stopWords
+     * @param array $stopWords
      */
-    public function setStopWords($stopWords)
+    public function setStopWords(array $stopWords)
     {
-        $this->stopWords = $stopWords;
-
+        $stopWords = implode('\b|\b', $stopWords);
+        $this->stopWords = '\b' . $stopWords . '\b';
         return $this;
     }
 
