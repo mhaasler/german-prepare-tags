@@ -31,11 +31,16 @@ abstract class GermanPrepareUtility
     {
         // cleaning
         $text= html_entity_decode($text);
-        $text= preg_replace("/\r\n|\r|\n/"," ",$text);
-        $text = preg_replace("/\.|,|:|;|-|'|\(|\)|\"|\&|[0-9]|#|…|–|“|„|”|‹|›|«|»|˜|\^|⋅|•|′|‘|’|‚|\!|\?|   |   |©/u"," ",$text);
+        $text= str_replace(">","> ",$text);
+        $text= str_replace("<"," <",$text);
         $text = preg_replace("/<code(.|\n)*?<\/code>/i", " ", $text);
+        $text = preg_replace("/[\$][a-zA-Z_\/0-9\,]*\b/im", " ", $text); // php vars like $text
         $text = strip_tags(trim($text));
-        $text = preg_replace("/>|=/i"," ",$text);
+        $text = preg_replace("/\b(http(s?):\/\/)[A-Za-z0-9\-\/\%\?\=\.]*\b/i", " ", $text); // urls
+        $text = preg_replace("/\b\S+@\S+\.\S+\b/", " ", $text); // emails
+        $text = preg_replace("/\.|,|:|;|-|'|\(|\)|\"|\&|[0-9]|#|…|–|“|„|”|‹|›|«|»|˜|\^|⋅|•|′|‘|’|‚|\!|\?|   |   |©|\[|\]/u"," ",$text);
+        $text= str_replace("/"," ",$text);
+        $text = preg_replace("/>|<|=/i"," ",$text);
         return $text;
     }
 
