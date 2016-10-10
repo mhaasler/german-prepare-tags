@@ -27,8 +27,8 @@
     "webmil/text-language-detect": "dev-master"
   },
   "autoload": {
-    "psr-4": {
-      "GermanPrepare\\": "src/"
+    "psr-0": {
+      "mhaasler\\GermanPrepare\\": "src/"
     }
   },
   "extra": {
