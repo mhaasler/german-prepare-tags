@@ -90,14 +90,19 @@ Handhabung
 Das GermanPrepareModel hat folgender Getter-Klassen
 
 + `getOrig()` 
+
  > gibt das Originalwort zurück
 + `getClean()` 
+
 > gibt das bereinigte Wort zurück
 + `getStem()` 
+
 > gibt den Wortstamm zurück
 + `getSoundex()` 
+
 > gibt den phonetischer Algorithmus nach dem Kölner Verfahren zurück 
 + `getOccour()` 
+
 > gibt die Anzahl der Vorkommen zurück
 
 
@@ -108,12 +113,16 @@ Optionen
 + `setMod( int $mod )` 
 
     + GermanPrepare::MOD_STEM_PHON (default) 
+    
     > gibt phonetischen Wert UND Wortstamm UND bereinigtes Wort zurück
     + GermanPrepare::MOD_ONLY_PHON 
+    
     > gibt phonetischen Wert UND bereinigtes Wort zurück
     + GermanPrepare::MOD_ONLY_STEM
+    
     > gibt Wortstamm UND bereinigtes Wort zurück
     + GermanPrepare::MOD_ONLY_TRIM
+    
     > gibt bereinigtes Wort zurück
 
 
