@@ -9,7 +9,8 @@ Optional kann das ausgegebene Schlagwort auch den Phonetikwert (analog zum php-B
 für die deutsche Sprache nach dem Kölner Verfahren enthalten.
 Dabei wird das SoundexGer Package von Andy Theiler genutzt.
 
-##Installation
+Installation
+-------------
 
 Empfohlen mit [Composer](http://getcomposer.org/):
 
@@ -41,8 +42,8 @@ Benötigt
  * [paslandau/german-stemmer](https://github.com/paslandau/german-stemmer)
  * [webmil/text-language-detect](https://github.com/webmil/text-language-detect)
  
- Handhabung
- -------------
+Handhabung
+-------------
  
  ```php 
  <?php
@@ -60,7 +61,7 @@ Benötigt
  ```
  
  Output:
-  ```php 
+```php 
      array (size=3)
       'text' => 
         object(mhaasler\GermanPrepare\Model\GermanPrepareModel)[414]
@@ -84,7 +85,7 @@ Benötigt
           protected 'soundex' => null
           protected 'occour' => int 1
      
-``` 
+```
 
 Das GermanPrepareModel hat folgender Getter-Klassen
 
