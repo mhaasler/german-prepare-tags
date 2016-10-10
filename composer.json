@@ -1,0 +1,39 @@
+{
+  "name": "mhaasler/germanprepare",
+  "version": "0.3.0",
+  "repositories": [
+    { "type": "composer",
+      "url": "http://packages.myseosolution.de/"
+    }
+  ],
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "Andy Theiler",
+      "email": "andy@x3m.ch",
+      "homepage": "https://github.com/deezaster/germanphonetic",
+      "role": "Developer"
+    },
+    {
+      "name": "Maik Haasler",
+      "email": "m.haasler@gmx.de",
+      "homepage": "https://github.com/mhaasler/germanprepare",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=5.6",
+    "paslandau/german-stemmer": "dev-master",
+    "webmil/text-language-detect": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "GermanPrepare\\": "src/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.3.x-dev"
+    }
+  }
+}
