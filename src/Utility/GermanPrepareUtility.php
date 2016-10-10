@@ -33,9 +33,9 @@ abstract class GermanPrepareUtility
         $text= html_entity_decode($text);
         $text= preg_replace("/\r\n|\r|\n/"," ",$text);
         $text = preg_replace("/\.|,|:|;|-|'|\(|\)|\"|\&|[0-9]|#|…|–|“|„|”|‹|›|«|»|˜|\^|⋅|•|′|‘|’|‚|\!|\?|   |   |©/u"," ",$text);
-        $text = preg_replace('/<code(.|\n)*?<\/code>/i', '', $text);
+        $text = preg_replace("/<code(.|\n)*?<\/code>/i", " ", $text);
         $text = strip_tags(trim($text));
-        $text = preg_replace('/>|=/i','',$text);
+        $text = preg_replace("/>|=/i"," ",$text);
         return $text;
     }
 
