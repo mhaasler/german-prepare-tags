@@ -1,22 +1,24 @@
 german-prepare-tags
 ====================
 
-PHP-Klasse für Verschlagwortung von deutschsprachigen Texten anhand von Wortstämmen.
+PHP class for tagging German language texts based on verbal stems.
 
-Es werden außerdem englischsprachige Texte unterstützt, wobei eine automatische Spracherkennung stattfindet.
+Supports for English language.
 
-Optional kann das ausgegebene Schlagwort auch den Phonetikwert (analog zum php-Befehl ``` soundex() ``` ) 
-für die deutsche Sprache nach dem Kölner Verfahren enthalten.
-Dabei wird das SoundexGer Package von Andy Theiler genutzt.
+Optionally, the specified keyword can also iclude the phonetic value 
+for the German language according to the Cologne algorithm (like php ``` soundex() ``` )
 
-Installation
+Used SoundexGer Package by Andy Theiler.
+
+
+installation
 -------------
 
-Empfohlen mit [Composer](http://getcomposer.org/):
+Recommended [Composer](http://getcomposer.org/):
 
     curl -sS https://getcomposer.org/installer | php
 
-Danach im Projekt die composer.json Datei anpassen,
+and  extend composer.json
 
     {
         "repositories": [ { "type": "vcs", "url": "https://github.com/mhaasler/german-prepare-tags.git"} ],
@@ -26,23 +28,23 @@ Danach im Projekt die composer.json Datei anpassen,
         }
     }
 
-jetzt mit Composer installieren,
+install 
 
     php composer.phar install
 
-und den composer autoloader einbinden.
+and require composer autoloader.
 
 ```php
 require 'vendor/autoload.php';
 ```
-Benötigt
+Required
 -------------
 
  * php >=5.6
  * [paslandau/german-stemmer](https://github.com/paslandau/german-stemmer)
  * [webmil/text-language-detect](https://github.com/webmil/text-language-detect)
  
-Handhabung
+Using
 -------------
  
  ```php 
@@ -55,117 +57,97 @@ Handhabung
  $germanPrepare = new GermanPrepare($text);
  
  var_dump (
-    $germanPrepare->setMod('stem')->getTags()
+    $germanPrepare->setModCompare('stem')->getTags()
   );
  
  ```
  
  Output:
 ```php 
-     array (size=3)
-      'text' => 
-        object(mhaasler\GermanPrepare\Model\GermanPrepareModel)[414]
-          protected 'orig' => string 'Text' (length=4)
-          protected 'clean' => string 'text' (length=4)
-          protected 'stem' => null
-          protected 'soundex' => null
-          protected 'occour' => int 1
-      'automatische' => 
-        object(mhaasler\GermanPrepare\Model\GermanPrepareModel)[415]
-          protected 'orig' => string 'automatische' (length=12)
-          protected 'clean' => string 'automatische' (length=12)
-          protected 'stem' => null
-          protected 'soundex' => null
-          protected 'occour' => int 1
-      'indexierung' => 
-        object(mhaasler\GermanPrepare\Model\GermanPrepareModel)[416]
-          protected 'orig' => string 'Indexierung' (length=11)
-          protected 'clean' => string 'indexierung' (length=11)
-          protected 'stem' => null
-          protected 'soundex' => null
-          protected 'occour' => int 1
+array (size=3)
+  'text' => 
+    object(mhaasler\GermanPrepare\Model\GermanPrepareModel)[415]
+      protected 'orig' => string 'Text' (length=4)
+      protected 'clean' => string 'text' (length=4)
+      protected 'stem' => string 'text' (length=4)
+      protected 'soundex' => string '2482' (length=4)
+      protected 'occour' => int 1
+  'automatische' => 
+    object(mhaasler\GermanPrepare\Model\GermanPrepareModel)[416]
+      protected 'orig' => string 'automatische' (length=12)
+      protected 'clean' => string 'automatische' (length=12)
+      protected 'stem' => string 'automat' (length=7)
+      protected 'soundex' => string '02628' (length=5)
+      protected 'occour' => int 1
+  'indexierung' => 
+    object(mhaasler\GermanPrepare\Model\GermanPrepareModel)[417]
+      protected 'orig' => string 'Indexierung' (length=11)
+      protected 'clean' => string 'indexierung' (length=11)
+      protected 'stem' => string 'indexier' (length=8)
+      protected 'soundex' => string '06248764' (length=8)
+      protected 'occour' => int 1
      
 ```
 
-Das GermanPrepareModel hat folgender Getter-Klassen
+The GermanPrepareModel has follow classes
 
 + `getOrig()` 
 
-    > gibt das Originalwort zurück
- 
 + `getClean()` 
-
-    > gibt das bereinigte Wort zurück
 
 + `getStem()` 
 
-    > gibt den Wortstamm zurück
-
 + `getSoundex()` 
 
-    > gibt den phonetischer Algorithmus nach dem Kölner Verfahren zurück
- 
 + `getOccour()` 
-
-    > gibt die Anzahl der Vorkommen zurück
 
 
      
-Optionen
+Options
 ------
 
 + `setMod( int $mod )` 
 
     GermanPrepare::MOD_STEM_PHON (default) 
     
-    > gibt phonetischen Wert UND Wortstamm UND bereinigtes Wort zurück
-    
     GermanPrepare::MOD_ONLY_PHON 
-    
-    > gibt phonetischen Wert UND bereinigtes Wort zurück
     
     GermanPrepare::MOD_ONLY_STEM
     
-    > gibt Wortstamm UND bereinigtes Wort zurück
-    
     GermanPrepare::MOD_ONLY_TRIM
     
-    > gibt bereinigtes Wort zurück
-
-
-Die jeweilig weggelassene Eigenschaft gibt beim Getter dann NULL.
 
 
 + `setModCompare( string $mod)` 
 
-     ohne Parameter
-    > es werden exakt die Stopwörter aus der Stopwortliste entfernt
-     "stem" (empfohlen)
-    > es werden alle Wörter entfernt, die den gleichen Wortstamm mit der Wortstammstopwortliste haben.
+     without parameter
+    > exactly the stop words are removed from the stop word list
+     "stem" (reqired)
+    > use stem for compare the words to be deleted
 
 + `setText( string $text, $setLang = true)` 
 
-    Parameter string $text
-    > beliebiger Text
+    parameter string $text
+    > any Text
      $setLang (default: true)
-    > bool Wert, ob der die Textsprache automatisch erkannt werden soll
+    > bool value, language recognition
 
 + `setStopWords(array $stopWords)` 
 
-    Parameter array $stopWords
-    > setzt eine eigene Stopwortliste (default: /src/Utility/data/stopwordlist_*.json)
+    parameter array $stopWords
+    > you own stop word list  (default: /src/Utility/data/stopwordlist_*.json)
 
 + `setLang( string $lang )` 
 
-     Parameter "de" oder "en"
+     parameter "de" or "en"
     > default: "de"
      
-Autor
+Author
 ------
      
  M. Haasler - m.haasler@gmx.de
      
-Lizenz
+Licence
 -------
      
 http://www.fsf.org/ GNU GENERAL PUBLIC LICENSE
