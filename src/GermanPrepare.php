@@ -159,6 +159,22 @@ class GermanPrepare implements GermanPrepareInterface
     }
 
     /**
+     * @return string
+     */
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    /**
+     * @return Model\GermanPrepareModel[]
+     */
+    public function getResult()
+    {
+        return $this->result;
+    }
+
+    /**
      * catch tags from 'prepared' text as array
      *
      * @param bool $dedectLang
@@ -171,29 +187,17 @@ class GermanPrepare implements GermanPrepareInterface
     }
 
     /**
-     * clears stopwords from the text
+     * prepare text
      *
      * @param bool $dedectLang
      * @return GermanPrepareModel[]
      */
     protected function prepareText($dedectLang)
     {
-        // clean/strip text
-        $this->setText(GermanPrepareUtility::cleanText($this->text), $dedectLang);
-        if($this->modCompare === 'stem'){
-            // delete stemmed stopwords (compare stemmed)
-            $this->setText(
-                GermanPrepareUtility::deleteStopWordsStem($this->text, $this->getStopWords(), $this->lang)
-            );
-        } else {
-            // remove stopWords from text
-            $this->setText(
-                GermanPrepareUtility::deleteStopWords($this->text, $this->getStopWords(), $this->lang)
-            );
-        }
+        // set text
+        $this->setPreparedText($dedectLang,$this->lang);
         // text to array
         $textArray = explode(' ', $this->text);
-
         // literal text array
         foreach ($textArray as $word){
             // fill result
@@ -204,11 +208,35 @@ class GermanPrepare implements GermanPrepareInterface
     }
 
     /**
+     * clears stopwords from the text
+     * @param bool $dedectLang
+     * @param string $lang
+     * @return void
+     */
+    public function setPreparedText($dedectLang, $lang='de')
+    {
+        // clean/strip text
+        $this->setText(GermanPrepareUtility::cleanText($this->text), $dedectLang);
+        if($this->modCompare === 'stem'){
+            // delete stemmed stopwords (compare stemmed)
+            $this->setText(
+                GermanPrepareUtility::deleteStopWordsStem($this->text, $this->getStopWords(), $lang)
+            );
+        } else {
+            // remove stopWords from text
+            $this->setText(
+                GermanPrepareUtility::deleteStopWords($this->text, $this->getStopWords(), $lang)
+            );
+        }
+
+    }
+
+    /**
      * prepare singly word
      *
      * @param string $word
      */
-    protected function prepareWord($word)
+    public function prepareWord($word)
     {
         // compress word
         $wordC = GermanPrepareUtility::compressFulltext($word);

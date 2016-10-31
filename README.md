@@ -122,6 +122,7 @@ Options
 
      without parameter
     > exactly the stop words are removed from the stop word list
+     
      "stem" (reqired)
     > use stem for compare the words to be deleted
 
@@ -151,3 +152,8 @@ Licence
 -------
      
 http://www.fsf.org/ GNU GENERAL PUBLIC LICENSE
+
+German translate
+-------
+
+http://mhaasler.de/german-prepare-tags-package-doku/

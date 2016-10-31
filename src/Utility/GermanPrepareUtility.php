@@ -86,8 +86,12 @@ abstract class GermanPrepareUtility
         $lang = $lang ? $lang  : self::getTextLanguage($text);
         $inStopwords = $inStopwords ? $inStopwords : implode('\b|\b', self::getStopWordsFromFile('stem_' . $lang));
         $text = preg_replace("=(\s[A-Za-z]{1,2})\s=", " ", $text);
+        $text = self::maskFulltext($text);
+        $text = preg_replace("/\W/", " ", utf8_decode($text));
+        $text = self::unmaskFulltext($text);
         $text = str_replace('  ',' ',$text);
         $outString = explode(' ',$text);
+        $outString = array_unique($outString);
         $outArray = array();
 
         foreach ($outString as $word){
@@ -101,7 +105,8 @@ abstract class GermanPrepareUtility
             }
         }
         $outArray = array_diff($outArray,array(''));
-        return implode(" ", $outArray);
+        $out =  implode(" ", $outArray);
+        return ($out);
     }
 
 
@@ -148,6 +153,68 @@ abstract class GermanPrepareUtility
 
         $outString = trim( mb_strtolower(stripslashes(strip_tags($word)),'UTF-8') );
         $outString = preg_replace($locSearch, $locReplace, $outString );
+
+        return $outString;
+    }
+
+    /**
+     * unmask text
+     *
+     * @param string $word
+     * @return string
+     */
+    public static function unmaskFulltext ($word="")
+    {
+        $locSearch[] = "=xsxsx=";
+        $locSearch[] = "=xaxex=";
+        $locSearch[] = "=xoxex=";
+        $locSearch[] = "=xuxex=";
+        $locSearch[] = "=XaxeX=";
+        $locSearch[] = "=XoxeX=";
+        $locSearch[] = "=XuxeX=";
+
+        $locReplace[] = "ß";
+        $locReplace[] = "ä";
+        $locReplace[] = "ö";
+        $locReplace[] = "ü";
+        $locReplace[] = "Ä";
+        $locReplace[] = "Ö";
+        $locReplace[] = "Ü";
+
+        $outString = preg_replace($locSearch, $locReplace, $word );
+
+        return $outString;
+    }
+
+    /**
+     * mask text
+     *
+     * @param string $word
+     * @return string
+     */
+    public static function maskFulltext ($word="")
+    {
+        $locSearch[] = "=ß=";
+        $locSearch[] = "=ä=";
+        $locSearch[] = "=ö=";
+        $locSearch[] = "=ü=";
+        $locSearch[] = "=Ä=";
+        $locSearch[] = "=Ö=";
+        $locSearch[] = "=Ü=";
+        $locSearch[] = "=([0-9/.,+-<>#]*\s)=";
+        $locSearch[] = "= +=";
+
+        $locReplace[] = "xsxsx";
+        $locReplace[] = "xaxex";
+        $locReplace[] = "xoxex";
+        $locReplace[] = "xuxex";
+        $locReplace[] = "XaxeX";
+        $locReplace[] = "XoxeX";
+        $locReplace[] = "XuxeX";
+        $locReplace[] = " ";
+        $locReplace[] = " ";
+
+        $outString = preg_replace($locSearch, $locReplace, $word );
 
         return $outString;
     }
