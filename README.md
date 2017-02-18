@@ -89,7 +89,7 @@ array (size=3)
      
 ```
 
-The GermanPrepareModel has follow classes
+The GermanPrepareModel has follow methods
 
 + `getOrig()` 
 
